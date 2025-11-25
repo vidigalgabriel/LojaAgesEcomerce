@@ -13,7 +13,7 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-const NEW_BASE_URL = 'https://lojaages.onrender.com';
+const NEW_BASE_URL = 'https://lojaagesecomerce.onrender.com';
 
 app.use(cors());
 app.use(express.json());
