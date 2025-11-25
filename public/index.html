@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AGES Store | Loja Virtual</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> 
+</head>
+<body>
+
+  <header class="main-header">
+    <div class="header-content">
+      <div class="logo" onclick="navigateTo('home')">
+        <img src="img/4.png" alt="AGES Logo">
+      </div>
+      
+      <nav class="main-nav">
+        <ul>
+          <li><a href="#" onclick="filterProducts('all')">INÍCIO</a></li>
+          <li><a href="#" onclick="filterProducts('promo')">OFERTAS</a></li>
+          <li><a href="#" onclick="filterProducts('masculino')">MASCULINO</a></li>
+          <li><a href="#" onclick="filterProducts('infantil')">INFANTIL</a></li>
+          <li><a href="#" onclick="filterProducts('acessorios')">ACESSÓRIOS</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <button onclick="navigateTo('cart')" class="cart-icon-btn">
+          <i class="fas fa-shopping-cart"></i> <span id="cart-count">0</span>
+        </button>
+        <button id="profile-btn" class="hidden" onclick="navigateTo('profile')">Minha Conta</button>
+        <button id="login-btn" onclick="openLoginModal()">Entrar</button>
+        <button id="logout-btn" class.="hidden">Sair</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="home-screen" class="screen active">
+      <div id="hero-slider-section">
+        <div class="slider-container" style="height: 350px;">
+          <img class="slider-image fade" src="img/blackfriday.png" alt="Black Friday">
+          <img class="slider-image fade" src="img/50ages.png" alt="Promoção 50%">
+          <img class="slider-image fade" src="img/infantiladulto.png" alt="Moda para todos">
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: space-around; padding: 40px 20px; background: #fff; margin-bottom: 40px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); flex-wrap: wrap; gap: 20px;">
+        <div style="text-align: center; min-width: 150px;">
+          <i class="fas fa-truck" style="font-size: 2rem; color: #333; margin-bottom: 10px;"></i>
+          <h4 style="margin-bottom: 5px;">Frete Grátis</h4>
+          <p style="font-size: 0.9rem; color: #666;">Para todo o Brasil</p>
+        </div>
+        <div style="text-align: center; min-width: 150px;">
+          <i class="fas fa-credit-card" style="font-size: 2rem; color: #333; margin-bottom: 10px;"></i>
+          <h4 style="margin-bottom: 5px;">Até 10x Sem Juros</h4>
+          <p style="font-size: 0.9rem; color: #666;">No cartão de crédito</p>
+        </div>
+        <div style="text-align: center; min-width: 150px;">
+          <i class="fas fa-exchange-alt" style="font-size: 2rem; color: #333; margin-bottom: 10px;"></i>
+          <h4 style="margin-bottom: 5px;">Troca Fácil</h4>
+          <p style="font-size: 0.9rem; color: #666;">30 dias para troca</p>
+        </div>
+      </div>
+      
+      <h2 class="section-title" id="current-category-title">Coleção Destaque</h2>
+      <div id="product-list" class="product-grid"></div>
+
+      <div style="margin-top: 80px; background: white; padding: 60px 20px; text-align: center; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.03);">
+        <h2 class="section-title" style="margin-top: 0;">Sobre a AGES Store</h2>
+        <p style="max-width: 800px; margin: 0 auto; color: #555; font-size: 1.1rem; line-height: 1.8;">
+          Fundada em 2025, a <strong>AGES Store</strong> nasceu com uma missão simples: democratizar o estilo. 
+          Acreditamos que a moda deve ser acessível, confortável e durável. Nossa curadoria passa por um rigoroso 
+          processo de qualidade para garantir que cada peça — seja uma camiseta básica ou um acessório premium — 
+          supere suas expectativas. Somos mais que uma loja; somos parceiros do seu estilo diário.
+        </p>
+        <div style="margin-top: 30px;">
+          <img src="img/home.png" alt="Selo AGES" style="width: 80px; opacity: 0.8;">
+        </div>
+      </div>
+    </section>
+
+    <section id="cart-screen" class="screen hidden">
+      <h2 class="section-title">Carrinho de Compras</h2>
+      <div class="cart-container-page">
+        <ul id="cart-items-page"></ul>
+        <div class="cart-summary">
+          <p id="cart-total-page">Total: R$ 0,00</p>
+          <button id="checkout-page-btn">Finalizar Compra Segura</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="profile-screen" class="screen hidden">
+      <h2 class="section-title">Minha Conta</h2>
+      <div class="cart-container-page">
+        <div class="profile-info">
+          <p><strong>Usuário:</strong> <span id="profile-name"></span></p>
+          <p><strong>Email:</strong> <span id="profile-email"></span></p>
+        </div>
+        <h3 style="margin-top:20px; border-bottom:1px solid #ddd; padding-bottom:10px;">Histórico de Pedidos</h3>
+        <div id="my-orders-list" style="margin-top:15px;"></div>
+      </div>
+    </section>
+
+    <section id="admin-screen" class="screen hidden">
+      <h2 class="section-title">Painel Administrativo</h2>
+      <div class="cart-container-page" style="max-width: 1000px;">
+        <div class="admin-tabs" style="margin-bottom: 20px; display:flex; gap:10px;">
+          <button onclick="showAdminTab('sales')" style="background:#333; color:#fff; padding:10px 20px; border:none; border-radius: 4px;">Vendas</button>
+          <button onclick="showAdminTab('products')" style="background:#ddd; color:#333; padding:10px 20px; border:none; border-radius: 4px;">Produtos</button>
+        </div>
+        
+        <div id="admin-sales-tab">
+          <table id="sales-table">
+            <thead><tr><th>Data</th><th>Cliente</th><th>Total</th><th>Status</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+
+        <div id="admin-products-tab" class="hidden">
+          <table id="products-table">
+            <thead><tr><th>ID</th><th>Produto</th><th>Preço</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="main-footer">
+    <div class="footer-content">
+      <div class="footer-logo">
+        <img src="img/home.png" alt="Logo AGES Store" class="logo-footer-img">
+        <div class="social-icons">
+          <a href="https://www.instagram.com/agestrabalho?igsh=cTN3Znk2dzQxeDVj" target="_blank" rel="noopener noreferrer" aria-label="Visite nosso Instagram">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="https://m.facebook.com/profile.php?id=61583774790664&name=xhp_nt__fb__action__open_user" target="_blank" rel="noopener noreferrer" aria-label="Visite nosso Facebook">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+        </div>
+      </div>
+      <div class="footer-links">
+        <div>
+          <a href="#" onclick="openFooterModal('faq')">FAQ</a>
+          <a href="#" onclick="openFooterModal('contact')">Contate-nos</a>
+        </div>
+        <div>
+          <a href="#" onclick="openFooterModal('privacy')">Política de Privacidade</a>
+          <a href="#" onclick="openFooterModal('subscribe')">Inscrições</a>
+        </div>
+      </div>
+    </div>
+    <div class="copyright">
+      <p>&copy; 2025 AGES Store. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <div id="product-modal" class="modal hidden">
+    <div class="modal-content product-detail-content">
+      <span class="close-modal" onclick="closeProductModal()">&times;</span>
+      <div id="product-detail-view" style="display: flex; gap: 30px; align-items: flex-start; text-align: left; padding: 10px;">
+        <img id="modal-img" src="" alt="" style="width: 50%; max-height: 300px; object-fit: contain; border-radius: 8px;">
+        <div style="flex: 1;">
+          <h2 id="modal-title" style="font-size: 1.8rem; margin-bottom: 10px; line-height: 1.2;"></h2>
+          <h3 id="modal-price" style="color: var(--primary-color); font-size: 1.5rem; margin-bottom: 15px; font-weight: bold;"></h3>
+          <p id="modal-desc" style="color: #666; font-size: 1rem; margin-bottom: 25px; line-height: 1.6;"></p>
+          
+          <div id="options-container" style="margin-bottom: 20px; display: flex; gap: 20px; flex-wrap: wrap;">
+            <div id="size-selection-container">
+              <label for="modal-size">Tamanho:</label>
+              <select id="modal-size" style="padding: 10px; border: 1px solid #ccc; border-radius: 4px;"></select>
+            </div>
+
+            <div id="qty-selection-container">
+              <label for="modal-qty">Quantidade:</label>
+              <input type="number" id="modal-qty" value="1" min="1" style="width: 60px; padding: 10px; border: 1px solid #ccc; border-radius: 4px; text-align: center;">
+            </div>
+          </div>
+          
+          <button id="modal-add-btn" style="padding: 15px; font-size: 1rem;">Adicionar ao Carrinho</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="auth-modal" class="modal hidden">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closeAuthModal()">&times;</span>
+      
+      <div id="login-form-container">
+        <h2 style="margin-bottom:20px;">Acessar Conta</h2>
+        <form id="login-form">
+          <input type="email" id="login-email" placeholder="Email" required>
+          <input type="password" id="login-password" placeholder="Senha" required>
+          <button type="submit">Entrar</button>
+        </form>
+        <p style="margin-top:15px;">Novo por aqui? <a href="#" id="show-register" style="color:blue;">Criar conta</a></p>
+      </div>
+
+      <div id="register-form-container" class="hidden">
+        <h2 style="margin-bottom:20px;">Criar Conta</h2>
+        <form id="register-form">
+          <input type="text" id="reg-name" placeholder="Nome Completo" required>
+          <input type="email" id="reg-email" placeholder="Email" required>
+          <input type="password" id="reg-password" placeholder="Senha" required>
+          <button type="submit">Cadastrar</button>
+        </form>
+        <p style="margin-top:15px;">Já possui conta? <a href="#" id="show-login" style="color:blue;">Entrar</a></p>
+      </div>
+    </div>
+  </div>
+
+  <div id="info-modal" class="modal hidden">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closeInfoModal()">&times;</span>
+      <h2 id="info-modal-title"></h2>
+      <div id="info-modal-content"></div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
